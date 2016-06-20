@@ -1,0 +1,56 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"	
+                xmlns:f="http://java.sun.com/jsf/core">
+    <p:dataTable id="accountsTable" widgetVar="accountsTable" 
+                 value="#{accountsController.accounts}" var="account" rowKey="account.id" 
+                 paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}"
+                 paginator="true" rows="4" paginatorPosition="bottom"
+                 emptyMessage="No account found with given criteria">
+
+        <p:column headerText="Name" style="text-align: center" sortBy="#{account.name}">
+            <h:outputText value="#{account.name}" />
+        </p:column>
+        <p:column headerText="Status" style="text-align: center">
+            <h:outputText value="#{account.status}" />
+        </p:column>
+        <p:column headerText="Role" style="text-align: center">
+            <h:selectOneMenu id="role" value="#{account.role}">
+                <p:ajax />
+                <f:selectItem itemLabel="ADMIN" itemValue="ADMIN" />
+                <f:selectItem itemLabel="USER" itemValue="USER" />
+            </h:selectOneMenu>
+        </p:column>
+
+
+
+<!--        <p:column headerText="Projects" style="text-align: center">
+
+            <p:selectManyMenu value="#{account.accountProjectsIds}">
+                <p:ajax listener="#{accountsController.setProjectsToAccount(account.id)}"/>
+                <f:selectItems value="#{projectController.projects}" var="t" itemLabel="#{t.name}" itemValue="#{t.id}" />
+                
+           </p:selectManyMenu>
+
+        </p:column>-->
+
+
+
+
+
+        <p:column headerText="Actions" style="text-align: center">
+            <p:commandButton value="Delete"
+                             action="#{accountsController.remove(account.id)}" update="accountsTable">
+            </p:commandButton>
+            <p:commandButton value="Approve"
+                             action="#{accountsController.approve(account.id)}" update="accountsTable">
+            </p:commandButton>		
+            <p:commandButton value="Reject"
+                             action="#{accountsController.reject(account.id)}" update="accountsTable">
+            </p:commandButton>			
+        </p:column>
+    </p:dataTable>
+    
+    
+</ui:composition>

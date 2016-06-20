@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"                
+                xmlns:f="http://java.sun.com/jsf/core">   
+
+    <p:panel id="panel">
+
+        <h:panelGrid columns="2" cellpadding="5">
+
+            <p:outputLabel value="Project:" />
+            <h:selectOneMenu id="project" value="#{projectController.projectSelectedId}">
+                 <p:ajax event="change" update="@form" />
+                <f:selectItem itemLabel="Select One" itemValue="" noSelectionOption="true" />
+                <f:selectItems value="#{projectController.projects}" var="t" itemLabel="#{t.name}" itemValue="#{t.id}" />
+            </h:selectOneMenu>
+
+            <p:outputLabel value="Release:" />
+            <h:selectOneMenu id="release" value="#{projectController.releaseSelectedId}">
+                <p:ajax event="change" update="@form" />
+                <f:selectItem itemLabel="Select One" itemValue="" noSelectionOption="true"/>
+                <f:selectItems value="#{projectController.projectSelected.releases}" var="t" itemLabel="#{t.name}" itemValue="#{t.id}" />
+            </h:selectOneMenu>
+
+
+            <p:outputLabel value="Sprint:" />
+            <h:selectOneMenu id="sprint" value="#{projectController.sprintSelectedId}">
+                 <p:ajax event="change" update="@form" />
+                <f:selectItem itemLabel="Select One" itemValue="" noSelectionOption="true"/>
+                <f:selectItems value="#{projectController.releaseSelected.sprints}" var="t" itemLabel="#{t.name}" itemValue="#{t.id}" />
+            </h:selectOneMenu>
+
+            <p:outputLabel value="Capacity:" />                      
+                <p:inputText id="inputNumber" value="#{projectController.sprintSelected.capacity}" label="Capacity">
+                <p:ajax event="keyup"/>
+                </p:inputText>
+        </h:panelGrid>
+    </p:panel>
+</ui:composition>

@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/WEB-INF/templates/template.xhtml"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:f="http://java.sun.com/jsf/core">
+	<ui:define name="content">
+
+
+			<p:layout id="idLayout" style="height:70%">
+				<p:layoutUnit id="layoutUnit" position="center"
+					header="User Management">
+					<h:form id="secondForm">
+						<p:panel id="accountsPanel">		
+							<ui:include src="/WEB-INF/dashboad/accounts.xhtml" />
+						</p:panel>
+					</h:form>
+
+
+				</p:layoutUnit>
+			</p:layout>
+
+
+			<!-- end myShit -->
+
+
+			<p:layout
+				style="margin-top:2%; min-width:300px; min-height:300px; padding:0px;">
+				<p:layoutUnit position="center" header="Projects" size="300"
+					minSize="300" maxSize="300" resizable="false">
+					
+				</p:layoutUnit>
+
+				<br />
+
+				<p:layoutUnit position="east" header="Capacity" size="500"
+					minSize="500" maxSize="500" resizable="false">
+
+					<h:form>
+						<h:panelGrid columns="1" cellpadding="1" class="ui-grid">
+							<h:outputLabel for="inputNumber" />
+							<p:outputPanel>
+								<p:inputText id="inputNumber" maxlength="3">
+									<f:validateLongRange minimum="0" />
+									<pe:keyFilter for="inputNumber" mask="9?9999" />
+								</p:inputText>
+							</p:outputPanel>
+						</h:panelGrid>
+						<br />
+						<br />
+
+						<p:dialog header="Values" widgetVar="dlg" showEffect="fold"
+							hideEffect="fold">
+							<h:panelGrid id="display" columns="2" cellpadding="5"
+								columnClasses="label,value">
+
+								<h:outputText value="Project" />
+								<h:outputText value="#{projectController.project}" />
+
+								<h:outputText value="Release" />
+								<h:outputText value="#{releaseView.selection}" />
+
+								<h:outputText value="Capacity" />
+								<h:outputText value="#{project.capacity}" />
+
+							</h:panelGrid>
+						</p:dialog>
+
+						<p:commandButton value="Submit" update="display"
+							oncomplete="PF('dlg').show()" />
+					</h:form>
+				</p:layoutUnit>
+			</p:layout>
+
+
+
+
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,100 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <title>MyJIRAStatistics</title>
+        <!--
+        <h:outputScript library="primefaces" name="jquery/jquery.js" />
+        -->
+        <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
+        <link type="text/css" rel="stylesheet" href="css/jira.css" />
+        <script type="text/javascript" src="js/bootstrap.min.js" />
+    </h:head>
+    <h:body>
+        <p:ajaxStatus onstart="PF('statusDialog').show();" onsuccess="PF('statusDialog').hide();" />
+        <script type="text/javascript">
+            function showStatus() {
+                PF('statusDialog').show();
+            }
+            function hideStatus() {
+                PF('statusDialog').hide();
+            }
+        </script>
+        <p:dialog widgetVar="statusDialog"
+                  modal="true" showHeader="false" draggable="false" 
+                  visible="false" closable="false" resizable="false">
+            <div class="loader" />
+        </p:dialog >
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" 
+                            class="navbar-toggle collapsed"
+                            data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+                            aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar" />
+                        <span class="icon-bar" />
+                        <span class="icon-bar" />
+                    </button>
+                    <h:link class="navbar-brand" value="Dashboard" outcome="index" />
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <h:link value="Project Statistics" outcome="statistics" onclick="PF('statusDialog').show()" />
+                        </li>
+                        <li>
+                            <h:link value="Raports" outcome="raports" onclick="PF('statusDialog').show()" />
+                        </li>
+                        <li>
+                            <h:link value="Settings" outcome="settings" onclick="PF('statusDialog').show()" />
+                        </li>
+                        <li>
+                            <h:link value="Registration" outcome="registration" onclick="PF('statusDialog').show()" />
+                        </li>					
+                    </ul>
+                    <form class="navbar-form navbar-left" role="search">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search" />
+                        </div>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </form>
+                    <h:form>
+                        <ul class="nav navbar-nav navbar-right">
+                            <li>
+                                <h:link value="#{sessionController.user.name}" outcome="help" />
+                            </li>			
+                            <li>
+                                <h:link value="Help" outcome="help" />
+                            </li>
+                            <li>
+                                <p:commandLink action="#{sessionController.logout()}" rendered="#{sessionController.logIn}" 
+                                               value="Log Out" ajax="false" />
+                            </li>
+
+                            <li>
+                                <p:commandLink action="#{sessionController.logInAction()}" rendered="#{!sessionController.logIn}" 
+                                               value="Log In" ajax="false" />
+                            </li>
+
+                            <li>
+                                <p:commandLink action="#{sessionController.registrationAction()}" rendered="#{!sessionController.logIn}" 
+                                               value="Registration" ajax="false" />
+                            </li>
+                        </ul>
+                    </h:form>
+                </div>
+            </div>
+        </nav>	
+        <ui:insert name="content">DEFAULT CONTENT</ui:insert>
+        <p:layoutUnit position="south"
+                      style=" text-align:center; bottom: 0px; visibility: visible;"
+                      styleClass="footer">
+            <ui:include src="/footer.xhtml" />
+        </p:layoutUnit>
+    </h:body>
+</html>

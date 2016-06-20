@@ -1,0 +1,127 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package jpaContollers;
+
+import databaseentities.AccountDB;
+import databaseentities.AccountprojectsDB;
+import databaseentities.ProjectDB;
+import databaseentities.ReleaseDB;
+import databaseentities.SprintDB;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.Resource;
+import javax.ejb.EJB;
+import javax.ejb.Stateless;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
+import javax.transaction.UserTransaction;
+import pojo.Account;
+import pojo.Project;
+import pojo.Release;
+import pojo.Sprint;
+
+/**
+ *
+ * @author Oana
+ */
+@Stateless
+public class MainController {
+
+
+    @EJB
+    private AccountDBJpaController accountJpaController;
+    @EJB
+    private ProjectDBJpaController projectJpaController;
+    @EJB
+    private ReleaseDBJpaController releaseJpaController;
+    @EJB
+    private SprintDBJpaController sprintJpaController;
+    @EJB
+    private AccountprojectsDBJpaController accountprojectsJpaController;
+
+
+    public boolean register(String username, String password) {
+        AccountDB u = accountJpaController.getUserByName(username);
+        if (u == null) {
+            try {
+                accountJpaController.create(new AccountDB(0L, username, password, "REJECTED", "USER"));
+            } catch (Exception ex) {
+                Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public Account login(String user, String parola) {
+
+        AccountDB u = accountJpaController.getUserByName(user);
+        if (u != null) {
+            if (u.getName().equals(parola)) {
+                return new Account(u.getId(), u.getName(), u.getPassword(), u.getStatus(), u.getRole());
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
+
+    public List<Account> getAccounts() {
+        List<AccountDB> accountsFromDatabase = accountJpaController.findAccountDBEntities();
+        List<Account> accounts = new ArrayList<>();
+
+        for (AccountDB adb : accountsFromDatabase) {
+            accounts.add(new Account(adb.getId(), adb.getName(), adb.getPassword(), adb.getStatus(), adb.getRole()));
+        }
+        return accounts;
+    }
+
+    public List<Sprint> getSprintsByRelease(Long idRelease) {
+        List<SprintDB> sprintsFromDatabase = sprintJpaController.getSprintsByRelease(idRelease);
+        List<Sprint> sprints = new ArrayList<>();
+        for (SprintDB sdb : sprintsFromDatabase) {
+            sprints.add(new Sprint(sdb.getId(), sdb.getName(), Long.valueOf(sdb.getCapacity())));
+        }
+        return sprints;
+    }
+
+    public List<Release> getReleasesByProject(Long idProject) {
+        List<ReleaseDB> releasessFromDatabase = releaseJpaController.getReleasesByProject(idProject);
+        List<Release> releases = new ArrayList<>();
+        for (ReleaseDB rdb : releasessFromDatabase) {
+            releases.add(new Release(rdb.getId(), rdb.getName(), getSprintsByRelease(rdb.getId())));
+        }
+        return releases;
+    }
+
+    public List<Project> getProjectsByAccount(Long idAccount) {
+        List<AccountprojectsDB> accountprojectsFromDatabase = accountprojectsJpaController.getProjectsByAccount(idAccount);
+        List<Project> projects = new ArrayList<>();
+
+        for (AccountprojectsDB apdb : accountprojectsFromDatabase) {
+            projects.add(new Project(apdb.getAccountproject(), getReleasesByProject(apdb.getAccountproject()), projectJpaController.findProjectDB(apdb.getAccountproject()).getName()));
+        }
+        return projects;
+    }
+
+    public List<Project> getAllProjects() {
+        List<ProjectDB> projectsFromDatabase = projectJpaController.findProjectDBEntities();
+        List<Project> projects = new ArrayList<>();
+
+        for (ProjectDB pdb : projectsFromDatabase) {
+            projects.add(new Project(pdb.getId(), getReleasesByProject(pdb.getId()), pdb.getName()));
+        }
+        return projects;
+    }
+
+}

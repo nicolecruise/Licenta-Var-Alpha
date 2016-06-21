@@ -84,6 +84,10 @@ public class ProjectController implements Serializable {
        
        
     }   
+    
+    
+    
+    
     public void setProjectByType(Account user){
         if (!(user.getRole().equals("ADMIN"))){
             this.projects = user.getAccountProjects();

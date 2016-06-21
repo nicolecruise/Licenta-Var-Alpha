@@ -25,15 +25,15 @@
 
 
 
-<!--        <p:column headerText="Projects" style="text-align: center">
+        <p:column headerText="Projects" style="text-align: center">
 
             <p:selectManyMenu value="#{account.accountProjectsIds}">
                 <p:ajax listener="#{accountsController.setProjectsToAccount(account.id)}"/>
                 <f:selectItems value="#{projectController.projects}" var="t" itemLabel="#{t.name}" itemValue="#{t.id}" />
-                
-           </p:selectManyMenu>
 
-        </p:column>-->
+            </p:selectManyMenu>
+
+        </p:column>
 
 
 
@@ -51,6 +51,7 @@
             </p:commandButton>			
         </p:column>
     </p:dataTable>
+
     
-    
+
 </ui:composition>

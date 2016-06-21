@@ -10,6 +10,8 @@ import database.entities.User;
 import database.entities.UserType;
 import java.io.Serializable;
 
+
+//?? nu o folosesc
 @Named
 @SessionScoped
 public class UserQueries implements Serializable {

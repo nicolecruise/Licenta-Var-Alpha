@@ -60,10 +60,7 @@ public class Sprint implements Serializable, Cloneable{
         this.capacity = capacity;
     }
 
-//    @Override
-//    public String toString() {
-//        return name;
-//    }
+
     @Override
     public boolean equals(Object other) {
         return (other instanceof Sprint) && (id != null)

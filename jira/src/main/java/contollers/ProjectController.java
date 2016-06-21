@@ -8,13 +8,13 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.enterprise.context.SessionScoped;
-import javax.faces.bean.ViewScoped;
 import javax.inject.Named;
 import pojo.Project;
 import pojo.Release;
 import pojo.Sprint;
-import javax.faces.bean.ManagedBean;
+import javax.inject.Inject;
 import jpaContollers.MainController;
+import pojo.RowRaport;
 
 @Named
 @SessionScoped
@@ -22,7 +22,7 @@ public class ProjectController implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private String console;
+  
 
     private Long projectSelectedId;
     private Long releaseSelectedId;
@@ -34,12 +34,26 @@ public class ProjectController implements Serializable {
 
     //private List<SelectItem> projects;
     private List<Project> projects;
+    
+    private List<String> projectsSelectedIds;
+    
+    
+    private List<Project> allProjects;
+    
+    private List<String> allReleases;
+    
+    private List<String> releasesSelected;
+    
+    private List<RowRaport> rowsRaport;
+    
+    
  
 
     
     @EJB
     MainController mainController;
-    
+    @Inject
+    SessionController sessionController;
 
     @PostConstruct
     public void init(){
@@ -47,28 +61,29 @@ public class ProjectController implements Serializable {
         projectSelected = new Project();
         releaseSelected = new Release();
         sprintSelected = new Sprint();
+        
+        projectsSelectedIds = new ArrayList<>();
+        
+        allProjects = mainController.getAllProjects();
 
         projects = mainController.getAllProjects();
+        
+        setProjectByType(sessionController.getUser());
+        
+        allReleases = new ArrayList<>();
+        allReleases.add("R1");
+        allReleases.add("R2");
+        allReleases.add("R3");
+        allReleases.add("R4");
+        allReleases.add("R5");
+        allReleases.add("R6");
+        
+        rowsRaport = new ArrayList<>();
+        
+        
        
-//        
-    }
-
-    public String getConsole() {
-        return console;
-    }
-
-    public void setConsole(String console) {
-        this.console = console;
-    }
-
-//    public Project getProjectSelected() {
-//        return projectSelected;
-//    }
-//
-//    public void setProjectSelected(Project projectSelected) {
-//        this.projectSelected = projectSelected;
-//    }
-    
+       
+    }   
     public void setProjectByType(Account user){
         if (!(user.getRole().equals("ADMIN"))){
             this.projects = user.getAccountProjects();
@@ -83,23 +98,7 @@ public class ProjectController implements Serializable {
         this.projects = projects;
     }
 
- 
 
-//    public Release getReleaseSelected() {
-//        return releaseSelected;
-//    }
-//
-//    public void setReleaseSelected(Release releaseSelected) {
-//        this.releaseSelected = releaseSelected;
-//    }
-//
-//    public Sprint getSprintSelected() {
-//        return sprintSelected;
-//    }
-//
-//    public void setSprintSelected(Sprint sprintSelected) {
-//        this.sprintSelected = sprintSelected;
-//    }
     public Long getProjectSelectedId() {
         return projectSelectedId;
     }  
@@ -143,8 +142,46 @@ public class ProjectController implements Serializable {
 
     public Sprint getSprintSelected() {
         return sprintSelected;
-    }
+    }   
     
+    
+  public void updateSprint(){
+      mainController.updatecapacityForSprintSelected(sprintSelected);
+  
+  }
+
+    public List<String> getProjectsSelectedIds() {
+        return projectsSelectedIds;
+    }
+
+    public void setProjectsSelectedIds(List<String> projectsSelectedIds) {
+        this.projectsSelectedIds = projectsSelectedIds;
+    }
+
+    public List<Project> getAllProjects() {
+        return allProjects;
+    }
+
+    public void setAllProjects(List<Project> allProjects) {
+        this.allProjects = allProjects;
+    }
+
+    public List<String> getAllReleases() {
+        return allReleases;
+    }
+
+    public void setAllReleases(List<String> allReleases) {
+        this.allReleases = allReleases;
+    }
+
+    public List<String> getReleasesSelected() {
+        return releasesSelected;
+    }
+
+    public void setReleasesSelected(List<String> releasesSelected) {
+        this.releasesSelected = releasesSelected;
+    }
+  
   
      
 

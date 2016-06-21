@@ -22,7 +22,7 @@ public class LoginController implements Serializable {
 	private static final long serialVersionUID = 1L;	
         
         @Inject
-        private AccountsController accountsQueries;
+        private AccountsController accountsController;
         
         @Inject
         private ProjectController projectView;
@@ -34,7 +34,7 @@ public class LoginController implements Serializable {
 	private String password;
 
 	public String login() {
-		Account user = accountsQueries.find(name);
+		Account user = accountsController.find(name);
 		if (user == null) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("User not found"));
 			return null;

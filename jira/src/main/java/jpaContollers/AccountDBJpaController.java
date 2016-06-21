@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package jpaContollers;
 
 import databaseentities.AccountDB;
@@ -28,14 +27,12 @@ import jpaContollers.exceptions.RollbackFailureException;
 @Stateless
 public class AccountDBJpaController implements Serializable {
 
-
-
     @PersistenceContext
     private EntityManager em;
-    
-    public void create(AccountDB accountDB){      
-            em.persist(accountDB);
-}   
+
+    public void create(AccountDB accountDB) {
+        em.persist(accountDB);
+    }
 
     public List<AccountDB> findAccountDBEntities() {
         return findAccountDBEntities(true, -1, -1);
@@ -46,37 +43,36 @@ public class AccountDBJpaController implements Serializable {
     }
 
     private List<AccountDB> findAccountDBEntities(boolean all, int maxResults, int firstResult) {
-        
-        
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(AccountDB.class));
-            Query q = em.createQuery(cq);
-            if (!all) {
-                q.setMaxResults(maxResults);
-                q.setFirstResult(firstResult);
-            }
-            return q.getResultList();
-       
+
+        CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+        cq.select(cq.from(AccountDB.class));
+        Query q = em.createQuery(cq);
+        if (!all) {
+            q.setMaxResults(maxResults);
+            q.setFirstResult(firstResult);
+        }
+        return q.getResultList();
+
     }
 
     public AccountDB findAccountDB(Long id) {
-        
-                    return em.find(AccountDB.class, id);
-         
+
+        return em.find(AccountDB.class, id);
+
     }
 
-    public int getAccountDBCount() {        
-       
-            CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<AccountDB> rt = cq.from(AccountDB.class);
-            cq.select(em.getCriteriaBuilder().count(rt));
-            Query q = em.createQuery(cq);
-            return ((Long) q.getSingleResult()).intValue();
-        
+    public int getAccountDBCount() {
+
+        CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
+        Root<AccountDB> rt = cq.from(AccountDB.class);
+        cq.select(em.getCriteriaBuilder().count(rt));
+        Query q = em.createQuery(cq);
+        return ((Long) q.getSingleResult()).intValue();
+
     }
-    
+
     public AccountDB getUserByName(String username) {
-        
+
         Query q = em.createNamedQuery("AccountDB.findByName");
         q.setParameter("name", username);
         List<AccountDB> users = q.getResultList();
@@ -86,5 +82,21 @@ public class AccountDBJpaController implements Serializable {
             return null;
         }
     }
+
+    public void update(AccountDB accountDb) {
+        
+        em.getTransaction().begin();
+        em.merge(accountDb);
+        em.getTransaction().commit();
+
+    }
     
+    
+    public void remove(AccountDB accountDb){
+        em.getTransaction().begin();
+        em.remove(accountDb);
+        em.getTransaction().commit();
+    
+    }
+
 }

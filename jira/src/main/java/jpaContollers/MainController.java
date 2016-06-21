@@ -36,7 +36,6 @@ import pojo.Sprint;
 @Stateless
 public class MainController {
 
-
     @EJB
     private AccountDBJpaController accountJpaController;
     @EJB
@@ -47,7 +46,6 @@ public class MainController {
     private SprintDBJpaController sprintJpaController;
     @EJB
     private AccountprojectsDBJpaController accountprojectsJpaController;
-
 
     public boolean register(String username, String password) {
         AccountDB u = accountJpaController.getUserByName(username);
@@ -122,6 +120,69 @@ public class MainController {
             projects.add(new Project(pdb.getId(), getReleasesByProject(pdb.getId()), pdb.getName()));
         }
         return projects;
+    }
+
+    public void updateStatus(Account account) {
+        AccountDB accountDB = accountJpaController.findAccountDB(account.getId());
+        accountDB.setStatus(account.getStatus());
+
+        accountJpaController.update(accountDB);
+    }
+
+    public void updateRole(Account account) {
+        AccountDB accountDB = accountJpaController.findAccountDB(account.getId());
+        accountDB.setRole(account.getRole());
+
+        accountJpaController.update(accountDB);
+    }
+
+    public void removeAccount(Account account) {
+        AccountDB accountDB = accountJpaController.findAccountDB(account.getId());
+
+        accountJpaController.remove(accountDB);
+    }
+
+    public void addAccount(Account account) {
+        accountJpaController.create(new AccountDB(Long.MIN_VALUE, account.getName(), account.getPassword(), account.getStatus(), account.getRole()));
+    }
+
+    public void addProjectsToAccount(Long accountId, List<Project> projects) {
+
+        List<Long> idProjects = new ArrayList<>();
+        for (Project p : projects) {
+            idProjects.add(p.getId());
+        }
+
+        accountprojectsJpaController.addProjectsByAccountId(accountId, idProjects);
+    }
+
+    public List<Long> getProjectsForAccount(Long id) {
+        List<AccountprojectsDB> accountprojects = accountprojectsJpaController.getProjectsByAccount(id);
+
+        List<Long> projectIds = new ArrayList<>();
+        for (AccountprojectsDB ap : accountprojects) {
+            projectIds.add(ap.getAccountproject());
+        }
+
+        return projectIds;
+
+    }
+
+    public void updatecapacityForSprintSelected(Sprint sprintselected) {
+        SprintDB sprintDB = sprintJpaController.findSprintDB(sprintselected.getId());
+        sprintDB.setCapacity(sprintselected.getCapacity().toString());
+        sprintJpaController.update(sprintDB);
+
+    }
+
+    public Account findAccountByName(String userName) {
+        AccountDB userFound = accountJpaController.getUserByName(userName);
+        if (userFound != null) {
+            return new Account(userFound.getId(), userFound.getName(), userFound.getPassword(), userFound.getStatus(), userFound.getRole());
+        } else {
+            return null;
+        }
+
     }
 
 }

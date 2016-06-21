@@ -90,4 +90,23 @@ public class AccountprojectsDBJpaController implements Serializable {
         return accountprojectsDB;
     }
     
+    public void removeByAccountId(Long accountId){
+        List<AccountprojectsDB> accountprojects = getProjectsByAccount(accountId);
+        
+        for(AccountprojectsDB ap: accountprojects){
+            em.getTransaction().begin();
+            em.remove(ap);
+            em.getTransaction().commit();
+        }
+        
+    }
+    
+    public void addProjectsByAccountId(Long accountId, List<Long> projectsIds){
+        
+        for(Long idProj: projectsIds){
+            create(new AccountprojectsDB(Long.MIN_VALUE, accountId, idProj));
+        }
+        
+    }
+    
 }

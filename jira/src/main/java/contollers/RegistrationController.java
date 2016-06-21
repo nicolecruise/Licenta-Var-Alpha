@@ -1,5 +1,6 @@
-package pages;
+package contollers;
 
+import contollers.AccountsController;
 import java.io.Serializable;
 
 import javax.enterprise.context.SessionScoped;
@@ -11,6 +12,8 @@ import javax.inject.Named;
 import database.entities.User;
 import database.entities.UserType;
 import database.queries.UserQueries;
+import jpaContollers.MainController;
+import pojo.Account;
 
 @Named
 @SessionScoped
@@ -19,7 +22,10 @@ public class RegistrationController implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Inject
-	private UserQueries userQueries;
+	private AccountsController accountsController;
+        
+        @Inject
+	private MainController mainController;
 
 	private String name;
 	private String password;
@@ -27,7 +33,7 @@ public class RegistrationController implements Serializable {
 
 
 	public String registration() {
-		User user = userQueries.find(name);
+		Account user = mainController.findAccountByName(name);
 		if (user != null) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("A user already exists with this name"));
 		} else if (!password.equals(confirmPassword)) {
@@ -37,8 +43,9 @@ public class RegistrationController implements Serializable {
 		} else if (password == null || password.isEmpty() || password.length() < 3) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Please chose a valid password"));
 		} else {
-			user = new User(101L, UserType.USER, name, password);
-			userQueries.save(user);
+                        Account newAccount = new Account(Long.MIN_VALUE, name, password, "REJECTED", "USER");
+			mainController.addAccount(newAccount);                    
+                        accountsController.getAccounts().add(mainController.findAccountByName(name));
 		}
 		return "login.xhtml?faces-redirect=true";
 	}

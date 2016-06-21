@@ -10,7 +10,7 @@
 	<ui:define name="content">
             <p:panel id="accountsPanel" header="Accounts" >
 			<h:form id="accountsForm">
-				<ui:include src="/WEB-INF/dashboad/accounts.xhtml" />
+				<ui:include src="/WEB-INF/dashboad/accounts.xhtml" rendered="#{sessionController.admin}"/>
 			</h:form>
 		</p:panel>
 		<br />

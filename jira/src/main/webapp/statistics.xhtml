@@ -25,37 +25,31 @@
 						<!-- <p:growl id="msgs" showDetail="true" /> -->
 						<table>
 							<tr>
-								<td><h:panelGrid columns="3" cellpadding="5">
-										<h:outputLabel for="menu" value="Project:" />
-										<p:selectCheckboxMenu id="menu" label="Projects" filter="true"
-											filterMatchMode="startsWith" panelStyle="width:300px" >
-											<f:selectItem itemLabel="Select Project" itemValue=""
-												noSelectionOption="true" />
-											<f:selectItem itemLabel="Select One" itemValue="" />
-											<f:selectItem itemLabel="SOM" itemValue="SOM" />
-											<f:selectItem itemLabel="Connect" itemValue="Connect" />
-											<f:selectItem itemLabel="Connect 1" itemValue="Connect 1" />
-											<f:selectItems />
-										</p:selectCheckboxMenu>
-										<!-- <p:commandButton value="Submit" update="msgs"
-									icon="ui-icon-check" /> -->
+								<td>
+                                                                        <h:panelGrid columns="3" cellpadding="5">
+										<h:outputLabel for="statisticsProjects" value="Project:" />
+                                                                                
+                                                                                <p:selectCheckboxMenu id="statisticsProjects" value="#{projectController.projectsSelectedIds}" label="Projects" filter="true" filterMatchMode="startsWith" panelStyle="width:300px" >
+											<p:ajax event="change" update="statisticsReleases" />                                                                                       
+                                                                                        <f:selectItems value="#{projectController.allProjects}" var="t" itemLabel="#{t.name}" itemValue="#{t.id}" />
+										</p:selectCheckboxMenu>                                                                               
+                                                                                
+                                                                                
+
+                                                                                
+                                                                                
+										
 									</h:panelGrid></td>
 
-								<td><h:panelGrid columns="3" cellpadding="5">
-										<h:outputLabel for="menu1" value="Release:" />
-										<p:selectCheckboxMenu id="menu1" label="Release" filter="true"
-                                                                                                      filterMatchMode="startsWith" panelStyle="width:300px">
-											
-											<f:selectItem itemLabel="Select Release" itemValue=""
-												noSelectionOption="true" />
-											<f:selectItem itemLabel="Release 1" itemValue="Release 1" />
-											<f:selectItem itemLabel="Release 2" itemValue="Release 2" />
-											<f:selectItem itemLabel="Release 3" itemValue="Release 3" />
-											<f:selectItem itemLabel="Release 4" itemValue="Release 4" />
-											<f:selectItems />
-										</p:selectCheckboxMenu>
-										<!-- <p:commandButton value="Submit" update="msgs"
-								icon="ui-icon-check" /> -->
+								<td>
+                                                                        <h:panelGrid columns="3" cellpadding="5">
+										<h:outputLabel for="statisticsReleases" value="Release:" />
+                                                                                
+                                                                                <p:selectCheckboxMenu id="statisticsReleases" value="#{projectController.releasesSelected}" label="Projects" filter="true" filterMatchMode="startsWith" panelStyle="width:300px" >
+											<p:ajax event="change" update="statisticsReleases" />                                                                                       
+                                                                                        <f:selectItems value="#{projectController.allReleases}" var="t" itemLabel="#{t.name}" itemValue="#{t.id}" />
+										</p:selectCheckboxMenu>    
+										
 									</h:panelGrid></td>
 							</tr>
 						</table>
@@ -65,25 +59,25 @@
 
 
 
-				<p:commandButton value="Submit" update="msgs" icon="ui-icon-check" />
+				<p:commandButton value="Submit" update="raport" icon="ui-icon-check" />
 			</p:panel>
 		</h:form>
 
 		<h:form id="proj">
-			<p:growl id="msgs" showDetail="true" autoUpdate="true" />
+			<p:growl id="raport" showDetail="true" autoUpdate="true" />
 			<p:panel header="Statistics Details" style="margin-bottom:10px;">
 
 				<p:dataTable id="projectsDetailsTable" var="project"
 					style="margin-top:20px; width: 600px;" paginator="true" rows="5"
 					paginatorPosition="bottom" widgetVar="50" editable="true">
 
-					<p:ajax event="rowEdit" update=":proj:msgs" />
-					<p:ajax event="rowEditCancel" update=":proj:msgs" />
+<!--					<p:ajax event="rowEdit" update=":proj:raport" />
+					<p:ajax event="rowEditCancel" update=":proj:raport" />
 
 					<f:facet name="header">
 						<h:outputText value="Projects Details Grid" />
-						<!-- <p:inputText id="globalFilter" onkeyup="PF('$messageDetailsTable').filter()" 
-							 style="width:100px;height:10px;" /> -->
+						 <p:inputText id="globalFilter" onkeyup="PF('$messageDetailsTable').filter()" 
+							 style="width:100px;height:10px;" /> 
 					</f:facet>
 
 					<p:column>
@@ -118,7 +112,11 @@
 							<h:outputText value="Options" style="text-align:center" />
 						</f:facet>
 						<p:rowEditor />
-					</p:column>
+					</p:column>-->
+
+
+                                     
+                                        
 				</p:dataTable>
 			</p:panel>
 		</h:form>

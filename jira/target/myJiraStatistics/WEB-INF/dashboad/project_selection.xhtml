@@ -31,9 +31,13 @@
             </h:selectOneMenu>
 
             <p:outputLabel value="Capacity:" />                      
-                <p:inputText id="inputNumber" value="#{projectController.sprintSelected.capacity}" label="Capacity">
+                <p:inputText id="inputNumber" value="#{projectController.sprintSelected.capacity}"  label="Capacity">
                 <p:ajax event="keyup"/>
                 </p:inputText>
+            
+          <p:commandButton value="Save permanently"
+                           action="#{projectController.updateSprint()}">
+            </p:commandButton>	
         </h:panelGrid>
     </p:panel>
 </ui:composition>

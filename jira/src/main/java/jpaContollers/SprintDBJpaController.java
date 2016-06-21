@@ -5,6 +5,7 @@
  */
 package jpaContollers;
 
+import databaseentities.AccountDB;
 import databaseentities.SprintDB;
 import java.io.Serializable;
 import java.util.List;
@@ -85,5 +86,13 @@ public class SprintDBJpaController implements Serializable {
         List<SprintDB> sprintsByRelease = q.getResultList();
 
         return sprintsByRelease;
+    }
+    
+    public void update(SprintDB sprintDb) {
+        
+        em.getTransaction().begin();
+        em.merge(sprintDb);
+        em.getTransaction().commit();
+
     }
 }

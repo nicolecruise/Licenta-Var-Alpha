@@ -11,7 +11,6 @@ import javax.inject.Named;
 import pojo.Account;
 import javax.inject.Inject;
 import jpaContollers.MainController;
-import jpaContollers.SomeEJB;
 import pojo.Project;
 
 @Named
@@ -32,76 +31,87 @@ public class AccountsController implements Serializable {
     @EJB
     MainController mainController;
     
-    @EJB
-    private SomeEJB someEJB;
- 
+    private List<Project> allProjects;
+    
+   
     @PostConstruct
-    public void init() {
-        
+    public void init() {       
       
         
-        selectedList = new ArrayList<>();       
-              
+        selectedList = new ArrayList<>();                    
       
-        someEJB.something();
-        accounts = mainController.getAccounts();       
-        //accounts = new ArrayList<>();
-        
-        
-        
-
-    }
-
-    public Account find(long id) {
-        for (Account account : accounts) {
-            if (account.getId().equals(id)) {
-                return account;
-            }
+     
+        accounts = mainController.getAccounts();      
+        for (Account account: accounts){
+            takeTheProjectsForAccountFromDataBase(account);
         }
-        return null;
+        
+        
+
     }
+    
+    
+    public void takeTheProjectsForAccountFromDataBase(Account account){
+        List<Long> projectsPerAcccount = mainController.getProjectsForAccount(account.getId());
+        
+        allProjects = projectView.getProjects();
+        
+        for (Long prId: projectsPerAcccount){
+            account.getAccountProjects().add(findProjectById(prId, allProjects));
+        }
+        
+       
+        
+    }
+
 
     public void approve(long id) {
-//        for (Account account : accounts) {
-//            if (account.getId().equals(id)) {
-//                account.setStatus(Status.APPROVED);
-//            }
-//        }
+        
+        for (Account account : accounts) {
+            if (account.getId().equals(id)) {
+                account.setStatus("APPROVED");
+                mainController.updateStatus(account);
+            }
+        }
+        
+        
     }
 
     public void reject(long id) {
-//        for (Account account : accounts) {
-//            if (account.getId().equals(id)) {
-//                account.setStatus(Status.REJECTED);
-//            }
-//        }
+        for (Account account : accounts) {
+            if (account.getId().equals(id)) {
+                account.setStatus("REJECTED");
+                mainController.updateStatus(account);
+            }
+        }
     }
 
     public void remove(long id) {
-//        for (Account account : accounts) {
-//            if (account.getId().equals(id)) {
-//                accounts.remove(account);
-//                return;
-//            }
-//        }
-    }
-
-    public Account find(String name) {
         for (Account account : accounts) {
-            if (account.getName().equals(name)) {
-                return account;
+            if (account.getId().equals(id)) {
+                accounts.remove(account);
+                mainController.removeAccount(account);
+                return;
             }
         }
-        return null;
     }
+
+    
 
     public void save(Account account) {
         accounts.add(account);
+        mainController.addAccount(account);
     }
 
     public List<Account> getAccounts() {
         return accounts;
     }
+
+    public void setAccounts(List<Account> accounts) {
+        this.accounts = accounts;
+    }
+
+  
 
     public List<String> getSelectedList() {
         return selectedList;
@@ -111,21 +121,46 @@ public class AccountsController implements Serializable {
         this.selectedList = selectedList;
     }
     
+    public Account findAccountById(Long id) {
+        for (Account account : accounts) {
+            if (account.getId().equals(id)) {
+                return account;
+            }
+        }
+        return null;
+    }
     
-   
-
-   
+    
     
     public void setProjectsToAccount(Long id){
         List<Project> projectsSelected = new ArrayList<>();
-        for(String idIter: accounts.get(Integer.valueOf(id.toString())).getAccountProjectsIds()){
-            projectsSelected.add(projectView.getProjects().get(Integer.valueOf(idIter)));
+        for(String idIter: findAccountById(id).getAccountProjectsIds()){
+            projectsSelected.add(findProjectById(Long.valueOf(idIter), allProjects));
         }
         
-        accounts.get(Integer.valueOf(id.toString())).setAccountProjects(projectsSelected);
+        findAccountById(id).setAccountProjects(projectsSelected);     
         
-        
-        
+        mainController.addProjectsToAccount(id, projectsSelected);
+    }
+    
+    
+    
+    public Project findProjectById(Long id, List<Project> projects) {
+        for (Project p : projects) {
+            if (p.getId().equals(id)) {
+                return p;
+            }
+        }
+        return null;
     }
 
+     public Account find(String name) {
+        for (Account account : accounts) {
+            if (account.getName().equals(name)) {
+                return account;
+            }
+        }
+        return null;
+    }
+    
 }

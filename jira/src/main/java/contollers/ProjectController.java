@@ -61,6 +61,7 @@ public class ProjectController implements Serializable {
         projectSelected = new Project();
         releaseSelected = new Release();
         sprintSelected = new Sprint();
+        projects = new ArrayList<>();
         
         projectsSelectedIds = new ArrayList<>();
         
@@ -89,8 +90,10 @@ public class ProjectController implements Serializable {
     
     
     public void setProjectByType(Account user){
-        if (!(user.getRole().equals("ADMIN"))){
-            this.projects = user.getAccountProjects();
+        if (user!=null && user.getRole()!=null){        
+            if (!(user.getRole().equals("ADMIN"))){
+                this.projects = user.getAccountProjects();
+            }
         }
     }
     

@@ -8,6 +8,7 @@ import javax.inject.Named;
 
 
 import java.io.Serializable;
+import javax.annotation.PostConstruct;
 
 @Named
 @SessionScoped
@@ -17,6 +18,11 @@ public class SessionController implements Serializable {
 
     private Account user;
 
+    
+    @PostConstruct
+    public void init() {   
+        user = new Account();
+    }
     public String logout() {
         
         FacesContext.getCurrentInstance().getExternalContext().invalidateSession();

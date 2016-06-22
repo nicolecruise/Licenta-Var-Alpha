@@ -7,7 +7,7 @@
 package jpaContollers;
 
 import databaseentities.AccountprojectsDB;
-import databaseentities.ProjectDB;
+
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.Stateless;

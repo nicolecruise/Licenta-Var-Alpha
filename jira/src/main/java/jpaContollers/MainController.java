@@ -7,7 +7,8 @@ package jpaContollers;
 
 import databaseentities.AccountDB;
 import databaseentities.AccountprojectsDB;
-import databaseentities.ProjectDB;
+import databaseentities.JiraprojectDB;
+
 import databaseentities.ReleaseDB;
 import databaseentities.SprintDB;
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public class MainController {
     @EJB
     private AccountDBJpaController accountJpaController;
     @EJB
-    private ProjectDBJpaController projectJpaController;
+    private JiraprojectDBJpaController projectJpaController;
     @EJB
     private ReleaseDBJpaController releaseJpaController;
     @EJB
@@ -110,16 +111,18 @@ public class MainController {
             projects.add(new Project(apdb.getAccountproject(), getReleasesByProject(apdb.getAccountproject()), projectJpaController.findProjectDB(apdb.getAccountproject()).getName()));
         }
         return projects;
+
     }
 
     public List<Project> getAllProjects() {
-        List<ProjectDB> projectsFromDatabase = projectJpaController.findProjectDBEntities();
+        List<JiraprojectDB> projectsFromDatabase = projectJpaController.findProjectDBEntities();
         List<Project> projects = new ArrayList<>();
 
-        for (ProjectDB pdb : projectsFromDatabase) {
+        for (JiraprojectDB pdb : projectsFromDatabase) {
             projects.add(new Project(pdb.getId(), getReleasesByProject(pdb.getId()), pdb.getName()));
         }
         return projects;
+
     }
 
     public void updateStatus(Account account) {

@@ -146,10 +146,13 @@ public class AccountsController implements Serializable {
     
     
     public Project findProjectById(Long id, List<Project> projects) {
-        for (Project p : projects) {
-            if (p.getId().equals(id)) {
-                return p;
+        if (projects!=null){
+            for (Project p : projects) {
+                if (p.getId().equals(id)) {
+                    return p;
+                }
             }
+            
         }
         return null;
     }

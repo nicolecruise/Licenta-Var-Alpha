@@ -29,6 +29,7 @@ import jpaContollers.exceptions.RollbackFailureException;
 @Stateless
 public class AccountprojectsDBJpaController implements Serializable {
 
+    
     @PersistenceContext
     private EntityManager em;
 
@@ -93,16 +94,16 @@ public class AccountprojectsDBJpaController implements Serializable {
     public void removeByAccountId(Long accountId){
         List<AccountprojectsDB> accountprojects = getProjectsByAccount(accountId);
         
-        for(AccountprojectsDB ap: accountprojects){
-            em.getTransaction().begin();
-            em.remove(ap);
-            em.getTransaction().commit();
+        if (accountprojects!=null){
+            for(AccountprojectsDB ap: accountprojects){
+                    em.remove(em.merge(ap));
+            }
         }
         
     }
     
     public void addProjectsByAccountId(Long accountId, List<Long> projectsIds){
-        
+        removeByAccountId(accountId);       
         for(Long idProj: projectsIds){
             create(new AccountprojectsDB(Long.MIN_VALUE, accountId, idProj));
         }

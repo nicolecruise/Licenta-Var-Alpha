@@ -85,18 +85,16 @@ public class AccountDBJpaController implements Serializable {
 
     public void update(AccountDB accountDb) {
         
-        em.getTransaction().begin();
-        em.merge(accountDb);
-        em.getTransaction().commit();
+       em.merge(accountDb);
 
     }
     
     
     public void remove(AccountDB accountDb){
-        em.getTransaction().begin();
-        em.remove(accountDb);
-        em.getTransaction().commit();
+        em.remove(em.merge(accountDb));
     
     }
+    
+    
 
 }

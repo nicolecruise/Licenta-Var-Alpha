@@ -119,7 +119,8 @@ public class MainController {
         List<Project> projects = new ArrayList<>();
 
         for (JiraprojectDB pdb : projectsFromDatabase) {
-            projects.add(new Project(pdb.getId(), getReleasesByProject(pdb.getId()), pdb.getName()));
+            //projects.add(new Project(pdb.getId(), getReleasesByProject(pdb.getId()), pdb.getName()));
+            projects.add(new Project(pdb.getId(), new ArrayList<Release>(), pdb.getName()));
         }
         return projects;
 
@@ -143,6 +144,7 @@ public class MainController {
         AccountDB accountDB = accountJpaController.findAccountDB(account.getId());
 
         accountJpaController.remove(accountDB);
+        accountprojectsJpaController.removeByAccountId(accountDB.getId());
     }
 
     public void addAccount(Account account) {

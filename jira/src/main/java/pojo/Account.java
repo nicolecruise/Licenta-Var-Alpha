@@ -29,6 +29,7 @@ public class Account implements Serializable {
         this.status = status;
         this.role = role;
         this.accountProjects = new ArrayList<>();
+        this.accountProjectsIds = new ArrayList<>();
     }
 
     public String getName() {

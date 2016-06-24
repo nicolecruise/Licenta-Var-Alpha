@@ -51,7 +51,7 @@ public class SessionController implements Serializable {
     }
 
     public boolean isAdmin() {
-        if (user != null) {
+        if (user != null && user.getRole()!=null) {
 
             return user.getRole().equals("ADMIN");
         } else {

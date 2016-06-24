@@ -58,6 +58,7 @@ public class AccountsController implements Serializable {
         
         for (Long prId: projectsPerAcccount){
             account.getAccountProjects().add(findProjectById(prId, allProjects));
+            account.getAccountProjectsIds().add(prId.toString());
         }
         
        

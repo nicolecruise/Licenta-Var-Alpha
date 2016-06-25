@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package databaseentities;
 
 import java.io.Serializable;
@@ -22,17 +21,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Oana
+ * @author Administrator
  */
 @Entity
-@Table(name = "release")
+@Table(name = "jirasprint")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "ReleaseDB.findAll", query = "SELECT r FROM ReleaseDB r"),
-    @NamedQuery(name = "ReleaseDB.findById", query = "SELECT r FROM ReleaseDB r WHERE r.id = :id"),
-    @NamedQuery(name = "ReleaseDB.findByName", query = "SELECT r FROM ReleaseDB r WHERE r.name = :name"),
-    @NamedQuery(name = "ReleaseDB.findByIdProject", query = "SELECT r FROM ReleaseDB r WHERE r.idProject = :idProject")})
-public class ReleaseDB implements Serializable {
+    @NamedQuery(name = "JirasprintDB.findAll", query = "SELECT j FROM JirasprintDB j"),
+    @NamedQuery(name = "JirasprintDB.findById", query = "SELECT j FROM JirasprintDB j WHERE j.id = :id"),
+    @NamedQuery(name = "JirasprintDB.findByName", query = "SELECT j FROM JirasprintDB j WHERE j.name = :name")})
+public class JirasprintDB implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,22 +43,17 @@ public class ReleaseDB implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "name")
     private String name;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "idProject")
-    private long idProject;
 
-    public ReleaseDB() {
+    public JirasprintDB() {
     }
 
-    public ReleaseDB(Long id) {
+    public JirasprintDB(Long id) {
         this.id = id;
     }
 
-    public ReleaseDB(Long id, String name, long idProject) {
+    public JirasprintDB(Long id, String name) {
         this.id = id;
         this.name = name;
-        this.idProject = idProject;
     }
 
     public Long getId() {
@@ -78,14 +72,6 @@ public class ReleaseDB implements Serializable {
         this.name = name;
     }
 
-    public long getIdProject() {
-        return idProject;
-    }
-
-    public void setIdProject(long idProject) {
-        this.idProject = idProject;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -96,10 +82,10 @@ public class ReleaseDB implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof ReleaseDB)) {
+        if (!(object instanceof JirasprintDB)) {
             return false;
         }
-        ReleaseDB other = (ReleaseDB) object;
+        JirasprintDB other = (JirasprintDB) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -108,7 +94,7 @@ public class ReleaseDB implements Serializable {
 
     @Override
     public String toString() {
-        return "databaseentities.ReleaseDB[ id=" + id + " ]";
+        return "databaseentities.JirasprintDB[ id=" + id + " ]";
     }
     
 }

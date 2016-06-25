@@ -167,4 +167,8 @@ public class AccountsController implements Serializable {
         return null;
     }
     
+     
+    public void setRoleInDataBase(Account account){
+        mainController.updateRole(account);    
+    }
 }

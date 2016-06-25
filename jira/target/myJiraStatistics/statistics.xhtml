@@ -1,125 +1,151 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	template="/WEB-INF/templates/template.xhtml"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:pe="http://primefaces.org/ui/extensions"
-	xmlns:f="http://java.sun.com/jsf/core">
-	<ui:define name="content">
-		<div class="alert alert-info"
-			style="float: left; width: 100%; height: 7%;">
-			<p style="float: left; padding-top: 2px;">Statistics</p>
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="/WEB-INF/templates/template.xhtml"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:pe="http://primefaces.org/ui/extensions"
+                xmlns:f="http://java.sun.com/jsf/core">
+    <ui:define name="content">
+        <div class="alert alert-info"
+             style="float: left; width: 100%; height: 7%;">
+            <p style="float: left; padding-top: 2px;">Statistics</p>
 
-		</div>
-		<br />
-		<br />
-		<h:form>
-			<p:growl id="msgs" showDetail="true" />
+        </div>
 
-			<p:panel header="Generate Statistics"
-				style="margin-bottom:10px; margin-top:3%;">
-				<h:panelGrid columns="1" cellpadding="5">
-					<h:form>
-						<!-- <p:growl id="msgs" showDetail="true" /> -->
-						<table>
-							<tr>
-								<td>
-                                                                        <h:panelGrid columns="3" cellpadding="5">
-										<h:outputLabel for="statisticsProjects" value="Project:" />
-                                                                                
-                                                                                <p:selectCheckboxMenu id="statisticsProjects" value="#{projectController.projectsSelectedIds}" label="Projects" filter="true" filterMatchMode="startsWith" panelStyle="width:300px" >
-											<p:ajax event="change" update="statisticsReleases" />                                                                                       
-                                                                                        <f:selectItems value="#{projectController.allProjects}" var="t" itemLabel="#{t.name}" itemValue="#{t.id}" />
-										</p:selectCheckboxMenu>                                                                               
-                                                                                
-                                                                                
+        <h:form>
+            <p:growl id="msgs" showDetail="true" />
 
-                                                                                
-                                                                                
-										
-									</h:panelGrid></td>
+            <p:panel header="Generate Statistics"
+                     style="margin-bottom:10px; margin-top:3%;">
+                <h:panelGrid columns="1" cellpadding="5">
 
-								<td>
-                                                                        <h:panelGrid columns="3" cellpadding="5">
-										<h:outputLabel for="statisticsReleases" value="Release:" />
-                                                                                
-                                                                                <p:selectCheckboxMenu id="statisticsReleases" value="#{projectController.releasesSelected}" label="Projects" filter="true" filterMatchMode="startsWith" panelStyle="width:300px" >
-											<p:ajax event="change" update="statisticsReleases" />                                                                                       
-                                                                                        <f:selectItems value="#{projectController.allReleases}" var="t" itemLabel="#{t.name}" itemValue="#{t.id}" />
-										</p:selectCheckboxMenu>    
-										
-									</h:panelGrid></td>
-							</tr>
-						</table>
-					</h:form>
-				</h:panelGrid>
-				<p:separator />
+
+                    <h:panelGrid columns="6" cellpadding="5">
+                        <h:outputLabel for="statisticsProjects" value="Project:" />
+
+                        <p:selectCheckboxMenu id="statisticsProjects" value="#{projectController.projectsSelectedIds}" label="Projects" filter="true" filterMatchMode="startsWith" panelStyle="width:300px" >
+
+                            <f:selectItems value="#{projectController.allProjects}" var="t" itemLabel="#{t.name}" itemValue="#{t.id}" />
+                        </p:selectCheckboxMenu>                                                                         
+
+                        <p:spacer width="50" height="10" />
+                        
+                        <h:outputLabel for="releasesProjects" value="Release:" />
+
+                        <p:selectCheckboxMenu id="statisticsReleases" value="#{projectController.releasesSelectedIds}" label="Releases" filter="true" filterMatchMode="startsWith" panelStyle="width:300px" >
+
+                            <f:selectItems value="#{projectController.allReleases}" var="t" itemLabel="#{t.name}" itemValue="#{t.id}" />
+                        </p:selectCheckboxMenu> 
+                    </h:panelGrid>
 
 
 
-				<p:commandButton value="Submit" update="raport" icon="ui-icon-check" />
-			</p:panel>
-		</h:form>
+                </h:panelGrid>
 
-		<h:form id="proj">
-			<p:growl id="raport" showDetail="true" autoUpdate="true" />
-			<p:panel header="Statistics Details" style="margin-bottom:10px;">
-
-				<p:dataTable id="projectsDetailsTable" var="project"
-					style="margin-top:20px; width: 600px;" paginator="true" rows="5"
-					paginatorPosition="bottom" widgetVar="50" editable="true">
-
-<!--					<p:ajax event="rowEdit" update=":proj:raport" />
-					<p:ajax event="rowEditCancel" update=":proj:raport" />
-
-					<f:facet name="header">
-						<h:outputText value="Projects Details Grid" />
-						 <p:inputText id="globalFilter" onkeyup="PF('$messageDetailsTable').filter()" 
-							 style="width:100px;height:10px;" /> 
-					</f:facet>
-
-					<p:column>
-						<f:facet name="header">
-							<h:outputText value="Release " />
-						</f:facet>
-						<h:outputText style="float:left" />
-					</p:column>
-
-					<p:column>
-						<f:facet name="header">
-							<h:outputText value="Project" />
-						</f:facet>
-						<h:outputText style="float:left" />
-					</p:column>
-					<p:column>
-						<f:facet name="header">
-							<h:outputText value="Effort Type" style="text-align:center" />
-						</f:facet>
-						<h:outputText style="float:right" />
-					</p:column>
-
-					<p:column>
-						<f:facet name="header">
-							<h:outputText value="Item" style="text-align:center" />
-						</f:facet>
-						<h:outputText style="float:right" />
-					</p:column>
-
-					<p:column style="width:32px">
-						<f:facet name="header">
-							<h:outputText value="Options" style="text-align:center" />
-						</f:facet>
-						<p:rowEditor />
-					</p:column>-->
+                <br />
+                <p:commandButton value="Submit"
+                                 action="#{projectController.setRows()}" update="raportTable raportTableTotal">
+                </p:commandButton>
 
 
-                                     
-                                        
-				</p:dataTable>
-			</p:panel>
-		</h:form>
+                <p:separator />
 
-	</ui:define>
+                <p:dataTable id="raportTable" widgetVar="raportTable" 
+                             value="#{projectController.rowsRaport}" var="rowReport"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}    "
+                             paginator="true" rows="4" paginatorPosition="bottom"
+                             emptyMessage="No account found with given criteria">
+
+
+                    <f:facet name="{Exporters}">
+
+                        <h:commandLink>
+                            <p:commandButton value="Export" />
+                            <p:dataExporter type="xls" target="raportTable" fileName="raport" />
+                        </h:commandLink>
+
+
+
+                    </f:facet>
+
+
+
+                    <p:column headerText="Release year" style="text-align: center" sortBy="#{rowReport.anRelease}">
+                        <h:outputText value="#{rowReport.anRelease}" />
+                    </p:column>
+
+                    <p:column headerText="Release" style="text-align: center">
+                        <h:outputText value="#{rowReport.releaseName}" />
+                    </p:column>
+
+
+                    <p:column headerText="Project" style="text-align: center">
+                        <h:outputText value="#{rowReport.projectName}" />
+                    </p:column>
+
+                    <p:column headerText="Category" style="text-align: center">
+                        <h:outputText value="#{rowReport.category}" />
+                    </p:column>
+
+                    <p:column headerText="Item" style="text-align: center">
+                        <h:outputText value="#{rowReport.item}" />
+                    </p:column>
+
+                    <p:column headerText="Sprint" style="text-align: center">
+                        <h:outputText value="#{rowReport.sprintName}" />
+                    </p:column>
+
+                    <p:column headerText="Story Point" style="text-align: center">
+                        <h:outputText value="#{rowReport.storyPoint}" />
+                    </p:column>
+
+                </p:dataTable>
+
+                <p:spacer height="50" />
+                    
+                <p:dataTable id="raportTableTotal" widgetVar="raportTableTotal" 
+                             value="#{projectController.rowsTotalPerRelease}" var="rowReportTotal"
+                             paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {Exporters}"
+                             paginator="true" rows="4" paginatorPosition="bottom"
+                             emptyMessage="No account found with given criteria">
+
+                    <f:facet name="{Exporters}">
+
+                        <h:commandLink>
+                            <p:commandButton value="Export" />
+                            <p:dataExporter type="xls" target="raportTableTotal" fileName="raportTotalPerRelease" />
+                        </h:commandLink>
+
+
+
+                    </f:facet>
+
+                    <p:column headerText="Release year" style="text-align: center">
+                        <h:outputText value="#{rowReportTotal.releaseYear}" />
+                    </p:column>
+                    <p:column headerText="Release name" style="text-align: center">
+                        <h:outputText value="#{rowReportTotal.releaseName}" />
+                    </p:column>
+                    <p:column headerText="Project name" style="text-align: center">
+                        <h:outputText value="#{rowReportTotal.projectName}" />
+                    </p:column>
+
+                    <p:column headerText="Total story points per Release" style="text-align: center">
+                        <h:outputText value="#{rowReportTotal.totalPerRelease}" />
+                    </p:column>
+
+
+
+                </p:dataTable>
+
+
+
+            </p:panel>
+        </h:form>
+
+
+
+    </ui:define>
 </ui:composition>

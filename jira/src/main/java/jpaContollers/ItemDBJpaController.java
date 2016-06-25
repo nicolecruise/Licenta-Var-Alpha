@@ -5,7 +5,8 @@
  */
 package jpaContollers;
 
-import databaseentities.ReleaseDB;
+import databaseentities.ItemDB;
+import databaseentities.JiraprojectDB;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -22,69 +23,55 @@ import jpaContollers.exceptions.RollbackFailureException;
 
 /**
  *
- * @author Oana
+ * @author Administrator
  */
 @Stateless
-public class ReleaseDBJpaController implements Serializable {
+public class ItemDBJpaController implements Serializable {
 
-    @PersistenceContext
+   @PersistenceContext
     private EntityManager em;
 
-    public void create(ReleaseDB releaseDB) throws RollbackFailureException, Exception {
-        
-            em.persist(releaseDB);
-            
+    public void create(JiraprojectDB projectDB) throws RollbackFailureException, Exception {
+       
+            em.persist(projectDB);
+           
     }
 
-   
-
-    public List<ReleaseDB> findReleaseDBEntities() {
-        return findReleaseDBEntities(true, -1, -1);
+    public List<ItemDB> findItemDBEntities() {
+        return findItemDBEntities(true, -1, -1);
     }
 
-    public List<ReleaseDB> findReleaseDBEntities(int maxResults, int firstResult) {
-        return findReleaseDBEntities(false, maxResults, firstResult);
+    public List<ItemDB> findItemDBEntities(int maxResults, int firstResult) {
+        return findItemDBEntities(false, maxResults, firstResult);
     }
 
-    private List<ReleaseDB> findReleaseDBEntities(boolean all, int maxResults, int firstResult) {
-        
-        
+    private List<ItemDB> findItemDBEntities(boolean all, int maxResults, int firstResult) {
+       
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(ReleaseDB.class));
+            cq.select(cq.from(ItemDB.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
                 q.setFirstResult(firstResult);
             }
             return q.getResultList();
+       
+    }
+
+    public ItemDB findItemDB(Long id) {
+        
+            return em.find(ItemDB.class, id);
         
     }
 
-    public ReleaseDB findReleaseDB(Long id) {
-       
-       
-            return em.find(ReleaseDB.class, id);
-      
-    }
-
-    public int getReleaseDBCount() {
-       
+    public int getItemDBCount() {
        
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<ReleaseDB> rt = cq.from(ReleaseDB.class);
+            Root<ItemDB> rt = cq.from(ItemDB.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
-        
+       
     }
-
-    public List<ReleaseDB> getReleasesByProject(Long idProject) {
-        
-        Query q = em.createNamedQuery("ReleaseDB.findByIdProject");
-        q.setParameter("idProject", idProject);
-        List<ReleaseDB> releasesByProject = q.getResultList();
-
-        return releasesByProject;
-    }
-
+    
 }

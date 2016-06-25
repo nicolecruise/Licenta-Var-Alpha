@@ -45,7 +45,7 @@ public class LoginController implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Welcome: " + user.getName()));
 			sessionController.setUser(user);
                         projectView.setProjectByType(user);
-			return "index.xhtml?faces-redirect=true";
+			return "statistics.xhtml?faces-redirect=true";
 		}
 	}
 

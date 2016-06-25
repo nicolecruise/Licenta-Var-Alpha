@@ -16,13 +16,13 @@ public class Sprint implements Serializable, Cloneable{
     
     private Long id;
     private String name;
-    private Long capacity;
+    private String capacity;
    
 
     public Sprint() {
     }
 
-    public Sprint(Long id, String name, Long capacity) {
+    public Sprint(Long id, String name, String capacity) {
         this.id = id;
         this.name = name;
         this.capacity = capacity;
@@ -52,11 +52,11 @@ public class Sprint implements Serializable, Cloneable{
         this.name = name;
     }
 
-    public Long getCapacity() {
+    public String getCapacity() {
         return capacity;
     }
 
-    public void setCapacity(Long capacity) {
+    public void setCapacity(String capacity) {
         this.capacity = capacity;
     }
 

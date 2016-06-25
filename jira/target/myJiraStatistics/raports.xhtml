@@ -4,76 +4,14 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	template="/WEB-INF/templates/template.xhtml"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:h="http://java.sun.com/jsf/html"	
 	xmlns:f="http://java.sun.com/jsf/core">
 	<ui:define name="content">
-		<!-- <div class="page-header">
-			<h5>
-				Raports <small>Raports</small>
-			</h5>
-		</div> -->
-
-		<div class="alert alert-info"
-			style="float: left; width: 100%; height: 7%;">
-			<p style="float: left; padding-top: 2px">Applications Reports</p>
-
-		</div>
-
-		<h:form id="form">
-			<p:growl id="msgs" showDetail="true" />
-			<p:row>
-				<p:column style="text-align: center">
-					<h:panelGrid columns="2" cellpadding="5">
-
-						<p:outputLabel for="button1" value="From:" />
-						<p:calendar id="button1" value="#{reportView.date1}"
-							showOn="button" />
-
-					</h:panelGrid>
-				</p:column>
-				<p:column style="text-align: center">
-					<h:panelGrid columns="2" cellpadding="5">
-
-						<p:outputLabel for="button2" value="To:" />
-						<p:calendar id="button2" value="#{reportView.date2}"
-							showOn="button" />
-
-					</h:panelGrid>
-				</p:column>
-
-				<p:commandButton value="Submit" update="msgs"
-					actionListener="#{reportView.click}" icon="ui-icon-check" />
-
-				<p:dialog modal="true" resizable="false" header="Values"
-					widgetVar="dlg" showEffect="fold">
-					<p:panelGrid id="display" columns="2" columnClasses="label,value">
-						<p:column style="text-align: center; align: left">
-							<h:outputText value="Date 1:" />
-							<h:outputText value="#{reportView.date1}">
-								<f:convertDateTime pattern="MM/dd/yyyy" />
-							</h:outputText>
-						</p:column>
-
-						<p:column style="text-align: center; align: right">
-							<h:outputText value="Date 2:" />
-							<h:outputText value="#{reportView.date2}">
-								<f:convertDateTime pattern="MM/dd/yyyy" />
-							</h:outputText>
-						</p:column>
-					</p:panelGrid>
-				</p:dialog>
-			</p:row>
-
-			<h3 id="report" style="align:center">Applications Reports</h3>
-
-			<h3>Export Page Data Only</h3>
-
-			<h:commandLink>
-				<p:graphicImage name="../webapp/img/pdf.ico" />
-				<p:dataExporter type="pdf" target="report" fileName="applicationsReport"
-					pageOnly="true" />
-			</h:commandLink>
+		
+		<h:form id="formRaportsStatistics">
+                    
+                                      
+                    <p:chart type="bar" model="#{projectController.barModel}" style="height:300px"/>
 			
 		</h:form>
 

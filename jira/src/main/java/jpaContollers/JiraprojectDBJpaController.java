@@ -7,6 +7,7 @@ package jpaContollers;
 
 import databaseentities.JiraprojectDB;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -76,4 +77,6 @@ public class JiraprojectDBJpaController implements Serializable {
             return ((Long) q.getSingleResult()).intValue();
         
     }
+
+    
 }

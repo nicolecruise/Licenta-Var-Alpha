@@ -17,9 +17,9 @@
         </p:column>
         <p:column headerText="Role" style="text-align: center">
             <h:selectOneMenu id="role" value="#{account.role}">
-                <p:ajax />
+                <p:ajax listener="#{accountsController.setRoleInDataBase(account)}"/>
                 <f:selectItem itemLabel="ADMIN" itemValue="ADMIN" />
-                <f:selectItem itemLabel="USER" itemValue="USER" />
+                <f:selectItem itemLabel="PJM" itemValue="PJM" />
             </h:selectOneMenu>
         </p:column>
 

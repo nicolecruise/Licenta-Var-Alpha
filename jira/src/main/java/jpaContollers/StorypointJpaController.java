@@ -5,8 +5,9 @@
  */
 package jpaContollers;
 
-import databaseentities.AccountDB;
-import databaseentities.SprintDB;
+import databaseentities.JiraprojectDB;
+import databaseentities.ProjectreleasesprintDB;
+import databaseentities.StorypointDB;
 import java.io.Serializable;
 import java.util.List;
 import javax.ejb.Stateless;
@@ -23,35 +24,31 @@ import jpaContollers.exceptions.RollbackFailureException;
 
 /**
  *
- * @author Oana
+ * @author Administrator
  */
 @Stateless
-public class SprintDBJpaController implements Serializable {
+public class StorypointJpaController implements Serializable {
 
-    @PersistenceContext
+   @PersistenceContext
     private EntityManager em;
 
-    public void create(SprintDB sprintDB) throws RollbackFailureException, Exception {
-      
-            em.persist(sprintDB);
-           
+    public void create(JiraprojectDB projectDB) throws RollbackFailureException, Exception {
+
+        em.persist(projectDB);
+
+    }
+    public List<StorypointDB> findStorypointEntities() {
+        return findStorypointEntities(true, -1, -1);
     }
 
-    
-
-    public List<SprintDB> findSprintDBEntities() {
-        return findSprintDBEntities(true, -1, -1);
+    public List<StorypointDB> findStorypointEntities(int maxResults, int firstResult) {
+        return findStorypointEntities(false, maxResults, firstResult);
     }
 
-    public List<SprintDB> findSprintDBEntities(int maxResults, int firstResult) {
-        return findSprintDBEntities(false, maxResults, firstResult);
-    }
-
-    private List<SprintDB> findSprintDBEntities(boolean all, int maxResults, int firstResult) {
-       
+    private List<StorypointDB> findStorypointEntities(boolean all, int maxResults, int firstResult) {
        
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            cq.select(cq.from(SprintDB.class));
+            cq.select(cq.from(StorypointDB.class));
             Query q = em.createQuery(cq);
             if (!all) {
                 q.setMaxResults(maxResults);
@@ -61,38 +58,30 @@ public class SprintDBJpaController implements Serializable {
        
     }
 
-    public SprintDB findSprintDB(Long id) {
+    public StorypointDB findStorypoint(Long id) {
        
-      
-            return em.find(SprintDB.class, id);
-       
+            return em.find(StorypointDB.class, id);
+        
     }
 
-    public int getSprintDBCount() {
-    
+    public int getStorypointCount() {
         
             CriteriaQuery cq = em.getCriteriaBuilder().createQuery();
-            Root<SprintDB> rt = cq.from(SprintDB.class);
+            Root<StorypointDB> rt = cq.from(StorypointDB.class);
             cq.select(em.getCriteriaBuilder().count(rt));
             Query q = em.createQuery(cq);
             return ((Long) q.getSingleResult()).intValue();
-        
+       
     }
 
-    public List<SprintDB> getSprintsByRelease(Long idRelease) {
+    public List<StorypointDB> findByProjectReleaseSprintId(Long idProjectReleaseSprint) {
         
-        Query q = em.createNamedQuery("SprintDB.findByIdRelase");
-        q.setParameter("idRelease", idRelease);
-        List<SprintDB> sprintsByRelease = q.getResultList();
-
-        return sprintsByRelease;
+        
+        Query q = em.createNamedQuery("StorypointDB.findByIdprojectreleasesprint");
+        q.setParameter("idprojectreleasesprint", idProjectReleaseSprint);
+      
+        List<StorypointDB> storyPoints = q.getResultList();
+        return storyPoints;
     }
     
-    public void update(SprintDB sprintDb) {
-        
-        em.getTransaction().begin();
-        em.merge(sprintDb);
-        em.getTransaction().commit();
-
-    }
 }

@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package databaseentities;
 
 import java.io.Serializable;
@@ -22,18 +21,17 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author Oana
+ * @author Administrator
  */
 @Entity
-@Table(name = "sprint")
+@Table(name = "efforttype")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "SprintDB.findAll", query = "SELECT s FROM SprintDB s"),
-    @NamedQuery(name = "SprintDB.findById", query = "SELECT s FROM SprintDB s WHERE s.id = :id"),
-    @NamedQuery(name = "SprintDB.findByName", query = "SELECT s FROM SprintDB s WHERE s.name = :name"),
-    @NamedQuery(name = "SprintDB.findByCapacity", query = "SELECT s FROM SprintDB s WHERE s.capacity = :capacity"),
-    @NamedQuery(name = "SprintDB.findByIdRelase", query = "SELECT s FROM SprintDB s WHERE s.idRelase = :idRelase")})
-public class SprintDB implements Serializable {
+    @NamedQuery(name = "EfforttypeDB.findAll", query = "SELECT e FROM EfforttypeDB e"),
+    @NamedQuery(name = "EfforttypeDB.findById", query = "SELECT e FROM EfforttypeDB e WHERE e.id = :id"),
+    @NamedQuery(name = "EfforttypeDB.findByName", query = "SELECT e FROM EfforttypeDB e WHERE e.name = :name")})
+public class EfforttypeDB implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,28 +43,17 @@ public class SprintDB implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "name")
     private String name;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 100)
-    @Column(name = "capacity")
-    private String capacity;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "idRelase")
-    private long idRelase;
 
-    public SprintDB() {
+    public EfforttypeDB() {
     }
 
-    public SprintDB(Long id) {
+    public EfforttypeDB(Long id) {
         this.id = id;
     }
 
-    public SprintDB(Long id, String name, String capacity, long idRelase) {
+    public EfforttypeDB(Long id, String name) {
         this.id = id;
         this.name = name;
-        this.capacity = capacity;
-        this.idRelase = idRelase;
     }
 
     public Long getId() {
@@ -85,22 +72,6 @@ public class SprintDB implements Serializable {
         this.name = name;
     }
 
-    public String getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(String capacity) {
-        this.capacity = capacity;
-    }
-
-    public long getIdRelase() {
-        return idRelase;
-    }
-
-    public void setIdRelase(long idRelase) {
-        this.idRelase = idRelase;
-    }
-
     @Override
     public int hashCode() {
         int hash = 0;
@@ -111,10 +82,10 @@ public class SprintDB implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof SprintDB)) {
+        if (!(object instanceof EfforttypeDB)) {
             return false;
         }
-        SprintDB other = (SprintDB) object;
+        EfforttypeDB other = (EfforttypeDB) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -123,7 +94,7 @@ public class SprintDB implements Serializable {
 
     @Override
     public String toString() {
-        return "databaseentities.SprintDB[ id=" + id + " ]";
+        return "databaseentities.EfforttypeDB[ id=" + id + " ]";
     }
     
 }

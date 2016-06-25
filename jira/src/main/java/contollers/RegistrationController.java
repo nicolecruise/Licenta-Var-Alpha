@@ -26,6 +26,9 @@ public class RegistrationController implements Serializable {
         
         @Inject
 	private MainController mainController;
+        
+        @Inject
+	private SessionController sessionController;
 
 	private String name;
 	private String password;
@@ -44,7 +47,8 @@ public class RegistrationController implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Please chose a valid password"));
 		} else {
                         Account newAccount = new Account(Long.MIN_VALUE, name, password, "REJECTED", "USER");
-			mainController.addAccount(newAccount);                    
+			mainController.addAccount(newAccount);    
+                        sessionController.setUser(user);
                         accountsController.getAccounts().add(mainController.findAccountByName(name));
 		}
 		return "login.xhtml?faces-redirect=true";

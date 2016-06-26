@@ -35,7 +35,7 @@ public class SessionController implements Serializable {
     
             
    public String registrationAction() {
-        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        //FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
         return "/registration.xhtml?faces-redirect=true";
     }
             
@@ -58,5 +58,14 @@ public class SessionController implements Serializable {
     
     public boolean isLogIn() {
         return user != null;
+    }
+    
+    public boolean isLogInAndApproved() {
+        
+        if(user !=null && user.getStatus().equals("APPROVED")){
+            return true;
+        }
+        else return false;
+        
     }
 }

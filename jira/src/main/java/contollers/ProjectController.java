@@ -54,6 +54,9 @@ public class ProjectController implements Serializable {
     MainController mainController;
     @Inject
     SessionController sessionController;
+    
+    @Inject
+    StatisticsPerRelease statisticsPerRelease;
 
     private BarChartModel barModel;
     
@@ -80,7 +83,7 @@ public class ProjectController implements Serializable {
         rowsRaport = new ArrayList<>();
         rowsTotalPerRelease = new ArrayList<>();
 
-        
+        barModel = new BarChartModel();
 
     }
 
@@ -106,9 +109,9 @@ public class ProjectController implements Serializable {
         ChartSeries statistics = new ChartSeries();
         statistics.setLabel("Total story points");
         
-        for(RowTotalPerRelease rowTotal: rowsTotalPerRelease){
-            Long total = Long.valueOf(rowTotal.getTotalPerRelease());
-            statistics.set("2004", 200);
+        for(RowTotalPerRelease total: rowsTotalPerRelease){
+            Long totalSp = Long.valueOf(total.getTotalPerRelease());
+            statistics.set(total.getProjectName() + " " + total.getReleaseName() + " " + total.getReleaseYear(), totalSp);
         }
         
         model.addSeries(statistics);
@@ -271,11 +274,13 @@ public class ProjectController implements Serializable {
     }
 
     public void setRows() {
-        createBarModel();
+        
 
         this.rowsRaport = mainController.getRowRaport(projectsSelectedIds, releasesSelectedIds);
 
         this.rowsTotalPerRelease = mainController.getProjectRelesesPerReleaseFromStoryPointsSelected(projectsSelectedIds, releasesSelectedIds);
+        
+        createBarModel();
     }
 
     public List<RowTotalPerRelease> getRowsTotalPerRelease() {
@@ -284,6 +289,11 @@ public class ProjectController implements Serializable {
 
     public void setRowsTotalPerRelease(List<RowTotalPerRelease> rowsTotalPerRelease) {
         this.rowsTotalPerRelease = rowsTotalPerRelease;
+    }
+    
+    
+    public boolean isSelected() {
+        return rowsRaport!=null && rowsRaport.size()>0;
     }
 
 }

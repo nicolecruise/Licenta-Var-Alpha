@@ -10,7 +10,10 @@
 		
 		<h:form id="formRaportsStatistics">
                     
-                                      
+                   
+                    
+                    <p:outputLabel value="Please, select projects and releases from the previous tab" rendered="#{!projectController.selected}"/>
+                    
                     <p:chart type="bar" model="#{projectController.barModel}" style="height:300px"/>
 			
 		</h:form>

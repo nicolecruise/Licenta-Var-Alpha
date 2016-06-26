@@ -36,6 +36,11 @@
             <artifactId>poi</artifactId>
             <version>3.9</version>
         </dependency>
+        <dependency>
+            <groupId>org.primefaces.themes</groupId>
+            <artifactId>hot-sneaks</artifactId>
+            <version>1.0.6</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>${project.artifactId}</finalName>				

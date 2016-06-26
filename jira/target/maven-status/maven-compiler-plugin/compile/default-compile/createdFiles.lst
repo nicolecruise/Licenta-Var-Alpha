@@ -43,6 +43,7 @@ pages\DashboardController.class
 databaseentities\ProjectreleaseDB.class
 pojo\Project.class
 database\entities\ReportView.class
+contollers\StatisticsPerRelease.class
 jpaContollers\exceptions\IllegalOrphanException.class
 databaseentities\JirasprintDB.class
 pages\SettingsController.class

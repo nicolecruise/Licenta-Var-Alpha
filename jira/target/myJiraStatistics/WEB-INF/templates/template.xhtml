@@ -45,13 +45,16 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
                         <li>
-                            <h:link class="navbar-brand" value="Dashboard" outcome="index" />
+                            <h:link class="navbar-brand" value="| Dashboard |" outcome="index" rendered="#{sessionController.logInAndApproved}"/>
                         </li>
                         <li>
-                            <h:link class="navbar-brand" value="Raports" outcome="statistics" onclick="PF('statusDialog').show()"/>
+                            <h:link class="navbar-brand" value="Raports |" outcome="statistics" onclick="PF('statusDialog').show()"/>
                         </li>
                         <li>
-                            <h:link  class="navbar-brand" value="Project Statistics" outcome="raports" onclick="PF('statusDialog').show()" />
+                            <h:link  class="navbar-brand" value="Total Project Statistics |" outcome="raports" onclick="PF('statusDialog').show()" />
+                        </li>
+                        <li>
+                            <h:link  class="navbar-brand" value="Project Statistics Per Release |" outcome="raportsperrelase" onclick="PF('statusDialog').show()" />
                         </li>
                         				
                     </ul>
@@ -59,7 +62,7 @@
                     <h:form>
                         <ul class="nav navbar-nav navbar-right">
                             <li>
-                                <h:link value="Welcome #{sessionController.user.name}" outcome="help" />
+                                <h:link value="Welcome #{sessionController.user.name}" outcome="help" rendered="#{sessionController.logIn}"/>
                             </li>			
                             <li>
                                 <h:link value="Help" outcome="help" />

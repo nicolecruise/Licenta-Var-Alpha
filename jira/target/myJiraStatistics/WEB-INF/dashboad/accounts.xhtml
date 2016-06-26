@@ -36,22 +36,29 @@
         </p:column>
 
 
-
-
-
         <p:column headerText="Actions" style="text-align: center">
-            <p:commandButton value="Delete"
+            <p:commandButton value="Delete" id="msgDelete"
                              action="#{accountsController.remove(account.id)}" update="accountsTable">
             </p:commandButton>
-            <p:commandButton value="Approve"
+            <p:tooltip id="toolTipDelete" for="msgDelete" value="Action to delete this account."
+                       showEffect="clip" hideEffect="explode" />
+
+            <p:commandButton value="Approve" id="msgApprove"
                              action="#{accountsController.approve(account.id)}" update="accountsTable">
-            </p:commandButton>		
-            <p:commandButton value="Reject"
+            </p:commandButton>
+            <p:tooltip id="toolTipApprove" for="msgApprove" value="Action to approve this account in the system. He has 
+                       READ and WRITE permission in the application."
+                       showEffect="clip" hideEffect="explode" />
+
+            <p:commandButton value="Reject" id="msgReject"
                              action="#{accountsController.reject(account.id)}" update="accountsTable">
-            </p:commandButton>			
+            </p:commandButton>
+            <p:tooltip id="toolTipReject" for="msgReject" value="Action to reject this account.He only has READ permission, 
+                       which means he can not change anything in the application."
+                       showEffect="clip" hideEffect="explode" />
         </p:column>
     </p:dataTable>
 
-    
+
 
 </ui:composition>

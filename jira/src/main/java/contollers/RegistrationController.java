@@ -46,7 +46,7 @@ public class RegistrationController implements Serializable {
 		} else if (password == null || password.isEmpty() || password.length() < 3) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Please chose a valid password"));
 		} else {
-                        Account newAccount = new Account(Long.MIN_VALUE, name, password, "REJECTED", "USER");
+                        Account newAccount = new Account(Long.MIN_VALUE, name, password, "REJECTED", "PJM");
 			mainController.addAccount(newAccount);    
                         sessionController.setUser(user);
                         accountsController.getAccounts().add(mainController.findAccountByName(name));

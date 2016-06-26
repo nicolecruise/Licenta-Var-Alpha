@@ -34,7 +34,7 @@
                         
                         <h:outputLabel for="releasesProjects" value="Release:" />
 
-                        <p:selectCheckboxMenu id="statisticsReleases" value="#{projectController.releasesSelectedIds}" label="Releases" filter="true" filterMatchMode="startsWith" panelStyle="width:300px" >
+                        <p:selectCheckboxMenu id="releasesProjects" value="#{projectController.releasesSelectedIds}" label="Releases" filter="true" filterMatchMode="startsWith" panelStyle="width:300px" >
 
                             <f:selectItems value="#{projectController.allReleases}" var="t" itemLabel="#{t.name}" itemValue="#{t.id}" />
                         </p:selectCheckboxMenu> 
